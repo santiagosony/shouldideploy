@@ -108,7 +108,8 @@ describe('shopping holiday translations', () => {
 describe('shopping holiday reasons never suggest Monday', () => {
   // The Monday after Thanksgiving is Cyber Monday, also a no-deploy day.
   const monday: Record<string, RegExp> = {
-    en: /monday/i,
+    // "Cyber Monday" itself is fine: it names the no-deploy day.
+    en: /(?<!cyber )monday/i,
     es: /lunes/i,
     'es-AR': /lunes/i,
     pt: /segunda/i,
