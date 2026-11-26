@@ -104,3 +104,27 @@ describe('shopping holiday translations', () => {
     }
   })
 })
+
+describe('shopping holiday reasons never suggest Monday', () => {
+  // The Monday after Thanksgiving is Cyber Monday, also a no-deploy day.
+  const monday: Record<string, RegExp> = {
+    en: /monday/i,
+    es: /lunes/i,
+    'es-AR': /lunes/i,
+    pt: /segunda/i,
+    cs: /pondělí/i,
+    sl: /ponedeljek/i,
+    el: /Δευτέρα/,
+    bg: /понеделник/i,
+    'zh-HK': /星期一/
+  }
+
+  it.each(availableLanguages)('%s thanksgiving and black_friday reasons', (lang) => {
+    expect(monday[lang]).toBeDefined()
+    for (const key of ['thanksgiving', 'black_friday']) {
+      for (const reason of getTranslatedReasons(key, lang)) {
+        expect(reason).not.toMatch(monday[lang])
+      }
+    }
+  })
+})
